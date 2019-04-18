@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ASSESSMENT Desarrollador</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				 
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="navbar-toggler-icon"></span>
+				</button> <a class="navbar-brand" href="#">Menu</a>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="navbar-nav">
+						<li class="nav-item active">
+							 <a class="nav-link" href="#" onclick="numAleatorioSinRepetir('reset')">Reset </a>
+						</li>						
+					</ul>
+				</div>
+			</nav>
+			<div class="jumbotron">
+				<h2>
+					ASSESSMENT Desarrollador - Bingo (José Antonio Gijón Muñoz)
+				</h2>				
+			</div>
+		</div>
+
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<h2>Listas descartados:</h2>
+			<DIV id="IDinfo"></DIV>
+		</div>
+		<div class="col-md-4">
+			Mínimo:<input class="form-control" id="IDmin" value="1"> 
+			Máximo:<input class="form-control" id="IDmax" value="10">
+			<br>Los numeros son editables.
+			<hr>
+			<button class="btn btn-primary" onclick="numAleatorioSinRepetir('reset')">Reset</button>
+			<button class="btn btn-primary" id="btn1" onclick="ponNumero()">Sacar numero</button>
+
+		</div>
+		<div class="col-md-4">			
+			<P class="h1" id="numeroAct" style="text-align: center;"></P>
+			<h1 id="textoGanador" style=" color: red; text-align: center; display:none;"> Ganador </h1>
+		</div>
+	</div>
+</div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>
+<script>
+	function numAleatorioSinRepetir(minimo,maximo) {
+		var i;
+		if (minimo=="reset"){	// Si el primer parámetro es "reset", reinicia la lista de números y sale.
+			document.getElementById("btn1").style.display = 'inline';
+			document.getElementById("textoGanador").style.display = 'none';
+			numeroAct.innerHTML = "";
+			IDinfo.innerHTML= '';
+			if (!this.minimo||!this.maximo) return; // Si el rango no está definido, sale.
+			this.numerosAparecidos=[]; // reinicia matriz
+			for (i=this.minimo;i<=this.maximo;i++)
+				this.numerosAparecidos.push(i); // Introduce los números del rango.
+			return;
+		}
+		if (isNaN(minimo)||isNaN(maximo)) return; // Si los parámetros no son números, sale.
+
+		if (minimo!=this.minimo || maximo!=this.maximo){ // Si cambia el rango, resetea la lista de numeros.
+			if (minimo>maximo) { // Si el mínimo es mayor que el máximo, invierte las variables.
+				i=minimo;
+				minimo=maximo;
+				maximo=i;
+			}
+			this.minimo=minimo; // Guarda el nuevo rango
+			this.maximo=maximo;
+			this.numerosAparecidos=[]; // reinicia matriz
+			for (i=minimo;i<=maximo;i++)
+				this.numerosAparecidos.push(i); // Introduce los números del rango.
+		}
+		var random=Math.floor(Math.random()*this.numerosAparecidos.length); // Elije una posicion aleatoria
+		var numero=this.numerosAparecidos[random]; // Guarda el número de la posición.
+		this.numerosAparecidos.splice(random,1); // Elimina la posición.
+		if(this.numerosAparecidos.length==[])
+		{
+			alert("Felicidades Ganaste..."+ numero);
+			document.getElementById("btn1").style.display = 'none';
+			document.getElementById("textoGanador").style.display = 'block';
+		}
+		return numero; // Devuelve el número.
+	}
+	function ponNumero(){
+		var min=parseInt(IDmin.value);
+		var max=parseInt(IDmax.value);
+		var numero=numAleatorioSinRepetir(min,max);
+		IDinfo.innerHTML+=numero+", ";
+		numeroAct.innerHTML = numero;
+	}
+</script>
